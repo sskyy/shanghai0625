@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import TodoList from "./TodoList";
+import withLocalStorage from "./withLocalStorage";
+import { ThemeContext } from "./ThemeContext";
+import 'todomvc-common/base.css'
+import 'todomvc-app-css/index.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// 经过 HOC 包装后，具备了从 localStorage 读取和每次变化时自动存储的能力。
+// 修改了 todo list 之后刷新试试，值都被保存了
+const TodoListWithStorage = withLocalStorage(TodoList, {propName: 'todos'})
+
+class App extends React.Component {
+  render() {
+
+    return <ThemeContext.Provider value={{mode: 'light'}} >
+      <TodoListWithStorage />
+    </ThemeContext.Provider>
+  }
 }
 
 export default App;
